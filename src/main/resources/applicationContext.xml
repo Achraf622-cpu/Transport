@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/data/jpa
+           http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+    <!-- Component scanning for controllers (required for @RestController to work) -->
+    <context:component-scan base-package="org.example.transport.controller"/>
+    <context:component-scan base-package="org.example.transport.exception"/>
+
+    <!-- JPA Repositories configuration -->
+    <jpa:repositories base-package="org.example.transport.repository"/>
+
+    <!-- Optimizer Beans -->
+    <bean id="nearestNeighborOptimizer" class="org.example.transport.optimizer.NearestNeighborOptimizer"/>
+    <bean id="clarkeWrightOptimizer" class="org.example.transport.optimizer.ClarkeWrightOptimizer"/>
+
+    <!-- Service Beans -->
+    <bean id="warehouseService" class="org.example.transport.service.WarehouseService">
+        <property name="warehouseRepository" ref="warehouseRepository"/>
+    </bean>
+
+    <bean id="vehicleService" class="org.example.transport.service.VehicleService">
+        <property name="vehicleRepository" ref="vehicleRepository"/>
+    </bean>
+
+    <bean id="deliveryService" class="org.example.transport.service.DeliveryService">
+        <property name="deliveryRepository" ref="deliveryRepository"/>
+    </bean>
+
+    <bean id="tourService" class="org.example.transport.service.TourService">
+        <property name="tourRepository" ref="tourRepository"/>
+        <property name="vehicleRepository" ref="vehicleRepository"/>
+        <property name="warehouseRepository" ref="warehouseRepository"/>
+        <property name="deliveryRepository" ref="deliveryRepository"/>
+        <property name="nearestNeighborOptimizer" ref="nearestNeighborOptimizer"/>
+        <property name="clarkeWrightOptimizer" ref="clarkeWrightOptimizer"/>
+    </bean>
+
+</beans>

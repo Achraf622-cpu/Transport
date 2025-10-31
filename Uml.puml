@@ -1,0 +1,50 @@
+@startuml
+class org.example.transport.entity.Delivery {
+- Long id
+- String address
+- Double latitude
+- Double longitude
+- Double weightKg
+- Double volumeM3
+- String preferredTimeSlot
+- DeliveryStatus status
+- Tour tour
+- Integer sequenceInTour
+}
+
+class org.example.transport.entity.Warehouse {
+- Long id
+- String name
+- String address
+- Double latitude
+- Double longitude
+- LocalTime openingTime
+- LocalTime closingTime
+}
+
+class org.example.transport.entity.Tour {
+- Long id
+- LocalDate tourDate
+- Vehicle vehicle
+- Warehouse warehouse
+- List<Delivery> deliveries
+- OptimizationAlgorithm algorithm
+- Double totalDistanceKm
+- Double totalWeightKg
+- Double totalVolumeM3
+- Boolean optimized
++ void addDelivery(Delivery)
++ void removeDelivery(Delivery)
+}
+
+
+class org.example.transport.entity.Vehicle {
+- Long id
+- String registrationNumber
+- VehicleType type
+- Double maxWeightKg
+- Double maxVolumeM3
+- Boolean available
+}
+
+@enduml
