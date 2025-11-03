@@ -5,6 +5,7 @@ import org.example.transport.entity.Tour;
 import org.example.transport.util.DistanceCalculator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
  * Clarke-Wright Savings algorithm implementation for tour optimization
  * Calculates savings for merging routes and optimizes based on maximum savings
  */
+@Component
 public class ClarkeWrightOptimizer implements TourOptimizer {
 
     private static final Logger logger = LoggerFactory.getLogger(ClarkeWrightOptimizer.class);

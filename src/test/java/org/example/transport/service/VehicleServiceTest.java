@@ -32,8 +32,7 @@ class VehicleServiceTest {
 
     @BeforeEach
     void setUp() {
-        vehicleService = new VehicleService();
-        vehicleService.setVehicleRepository(vehicleRepository);
+        vehicleService = new VehicleService(vehicleRepository);
     }
 
     @Test

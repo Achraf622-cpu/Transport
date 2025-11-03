@@ -32,8 +32,7 @@ class DeliveryServiceTest {
 
     @BeforeEach
     void setUp() {
-        deliveryService = new DeliveryService();
-        deliveryService.setDeliveryRepository(deliveryRepository);
+        deliveryService = new DeliveryService(deliveryRepository);
     }
 
     @Test

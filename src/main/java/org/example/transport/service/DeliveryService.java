@@ -8,6 +8,7 @@ import org.example.transport.mapper.DeliveryMapper;
 import org.example.transport.repository.DeliveryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,13 +17,14 @@ import java.util.stream.Collectors;
  *
  * for managing deliveries
  */
+@Service
 public class DeliveryService {
 
     private static final Logger logger = LoggerFactory.getLogger(DeliveryService.class);
 
-    private DeliveryRepository deliveryRepository;
+    private final DeliveryRepository deliveryRepository;
 
-    public void setDeliveryRepository(DeliveryRepository deliveryRepository) {
+    public DeliveryService(DeliveryRepository deliveryRepository) {
         this.deliveryRepository = deliveryRepository;
     }
 

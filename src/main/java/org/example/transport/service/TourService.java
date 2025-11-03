@@ -12,6 +12,8 @@ import org.example.transport.exception.InvalidTourException;
 import org.example.transport.exception.ResourceNotFoundException;
 import org.example.transport.mapper.DeliveryMapper;
 import org.example.transport.mapper.TourMapper;
+import org.example.transport.optimizer.ClarkeWrightOptimizer;
+import org.example.transport.optimizer.NearestNeighborOptimizer;
 import org.example.transport.optimizer.TourOptimizer;
 import org.example.transport.repository.DeliveryRepository;
 import org.example.transport.repository.TourRepository;
@@ -20,6 +22,7 @@ import org.example.transport.repository.WarehouseRepository;
 import org.example.transport.util.DistanceCalculator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,39 +31,29 @@ import java.util.stream.Collectors;
 /**
  * Service for managing tours and optimization
  */
+@Service
 public class TourService {
 
     private static final Logger logger = LoggerFactory.getLogger(TourService.class);
 
-    private TourRepository tourRepository;
-    private VehicleRepository vehicleRepository;
-    private WarehouseRepository warehouseRepository;
-    private DeliveryRepository deliveryRepository;
-    private TourOptimizer nearestNeighborOptimizer;
-    private TourOptimizer clarkeWrightOptimizer;
+    private final TourRepository tourRepository;
+    private final VehicleRepository vehicleRepository;
+    private final WarehouseRepository warehouseRepository;
+    private final DeliveryRepository deliveryRepository;
+    private final NearestNeighborOptimizer nearestNeighborOptimizer;
+    private final ClarkeWrightOptimizer clarkeWrightOptimizer;
 
-    // Setters for dependency injection
-    public void setTourRepository(TourRepository tourRepository) {
+    public TourService(TourRepository tourRepository,
+                       VehicleRepository vehicleRepository,
+                       WarehouseRepository warehouseRepository,
+                       DeliveryRepository deliveryRepository,
+                       NearestNeighborOptimizer nearestNeighborOptimizer,
+                       ClarkeWrightOptimizer clarkeWrightOptimizer) {
         this.tourRepository = tourRepository;
-    }
-
-    public void setVehicleRepository(VehicleRepository vehicleRepository) {
         this.vehicleRepository = vehicleRepository;
-    }
-
-    public void setWarehouseRepository(WarehouseRepository warehouseRepository) {
         this.warehouseRepository = warehouseRepository;
-    }
-
-    public void setDeliveryRepository(DeliveryRepository deliveryRepository) {
         this.deliveryRepository = deliveryRepository;
-    }
-
-    public void setNearestNeighborOptimizer(TourOptimizer nearestNeighborOptimizer) {
         this.nearestNeighborOptimizer = nearestNeighborOptimizer;
-    }
-
-    public void setClarkeWrightOptimizer(TourOptimizer clarkeWrightOptimizer) {
         this.clarkeWrightOptimizer = clarkeWrightOptimizer;
     }
 

@@ -5,6 +5,7 @@ import org.example.transport.entity.Tour;
 import org.example.transport.util.DistanceCalculator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,6 +16,7 @@ import java.util.Set;
  * Nearest Neighbor algorithm implementation for tour optimization
  * Always chooses the closest unvisited delivery
  */
+@Component
 public class NearestNeighborOptimizer implements TourOptimizer {
 
     private static final Logger logger = LoggerFactory.getLogger(NearestNeighborOptimizer.class);

@@ -8,6 +8,7 @@ import org.example.transport.mapper.VehicleMapper;
 import org.example.transport.repository.VehicleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,13 +16,14 @@ import java.util.stream.Collectors;
 /**
  * Service for managing vehicles
  */
+@Service
 public class VehicleService {
 
     private static final Logger logger = LoggerFactory.getLogger(VehicleService.class);
 
-    private VehicleRepository vehicleRepository;
+    private final VehicleRepository vehicleRepository;
 
-    public void setVehicleRepository(VehicleRepository vehicleRepository) {
+    public VehicleService(VehicleRepository vehicleRepository) {
         this.vehicleRepository = vehicleRepository;
     }
 

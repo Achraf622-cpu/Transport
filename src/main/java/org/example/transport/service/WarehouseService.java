@@ -7,6 +7,7 @@ import org.example.transport.mapper.WarehouseMapper;
 import org.example.transport.repository.WarehouseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,13 +16,14 @@ import java.util.stream.Collectors;
 /**
  * Service for managing warehouses
  */
+@Service
 public class WarehouseService {
 
     private static final Logger logger = LoggerFactory.getLogger(WarehouseService.class);
 
-    private WarehouseRepository warehouseRepository;
+    private final WarehouseRepository warehouseRepository;
 
-    public void setWarehouseRepository(WarehouseRepository warehouseRepository) {
+    public WarehouseService(WarehouseRepository warehouseRepository) {
         this.warehouseRepository = warehouseRepository;
     }
 
