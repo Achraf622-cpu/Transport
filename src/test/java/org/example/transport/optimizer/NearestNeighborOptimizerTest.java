@@ -65,9 +65,9 @@ class NearestNeighborOptimizerTest {
 
         Delivery delivery = new Delivery();
         delivery.setId(1L);
-        delivery.setAddress("123 Main St");
-        delivery.setLatitude(48.8600);
-        delivery.setLongitude(2.3600);
+        delivery.setSpecificAddress("123 Main St");
+        delivery.setSpecificLatitude(48.8600);
+        delivery.setSpecificLongitude(2.3600);
         delivery.setWeightKg(10.0);
         delivery.setVolumeM3(0.5);
         delivery.setStatus(DeliveryStatus.PENDING);
@@ -92,9 +92,9 @@ class NearestNeighborOptimizerTest {
         // Delivery 1 - Close to warehouse
         Delivery delivery1 = new Delivery();
         delivery1.setId(1L);
-        delivery1.setAddress("Close Location");
-        delivery1.setLatitude(48.8570);
-        delivery1.setLongitude(2.3530);
+        delivery1.setSpecificAddress("Close Location");
+        delivery1.setSpecificLatitude(48.8570);
+        delivery1.setSpecificLongitude(2.3530);
         delivery1.setWeightKg(5.0);
         delivery1.setVolumeM3(0.3);
         delivery1.setStatus(DeliveryStatus.PENDING);
@@ -102,9 +102,9 @@ class NearestNeighborOptimizerTest {
         // Delivery 2 - Far from warehouse
         Delivery delivery2 = new Delivery();
         delivery2.setId(2L);
-        delivery2.setAddress("Far Location");
-        delivery2.setLatitude(48.9000);
-        delivery2.setLongitude(2.4000);
+        delivery2.setSpecificAddress("Far Location");
+        delivery2.setSpecificLatitude(48.9000);
+        delivery2.setSpecificLongitude(2.4000);
         delivery2.setWeightKg(8.0);
         delivery2.setVolumeM3(0.6);
         delivery2.setStatus(DeliveryStatus.PENDING);
@@ -112,9 +112,9 @@ class NearestNeighborOptimizerTest {
         // Delivery 3 - Medium distance
         Delivery delivery3 = new Delivery();
         delivery3.setId(3L);
-        delivery3.setAddress("Medium Location");
-        delivery3.setLatitude(48.8700);
-        delivery3.setLongitude(2.3700);
+        delivery3.setSpecificAddress("Medium Location");
+        delivery3.setSpecificLatitude(48.8700);
+        delivery3.setSpecificLongitude(2.3700);
         delivery3.setWeightKg(6.0);
         delivery3.setVolumeM3(0.4);
         delivery3.setStatus(DeliveryStatus.PENDING);

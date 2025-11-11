@@ -39,12 +39,12 @@ class DeliveryServiceTest {
     void testGetAllDeliveries() {
         Delivery delivery1 = new Delivery();
         delivery1.setId(1L);
-        delivery1.setAddress("123 Main St");
+        delivery1.setSpecificAddress("123 Main St");
         delivery1.setStatus(DeliveryStatus.PENDING);
 
         Delivery delivery2 = new Delivery();
         delivery2.setId(2L);
-        delivery2.setAddress("456 Oak Ave");
+        delivery2.setSpecificAddress("456 Oak Ave");
         delivery2.setStatus(DeliveryStatus.DELIVERED);
 
         when(deliveryRepository.findAll()).thenReturn(Arrays.asList(delivery1, delivery2));
@@ -59,9 +59,9 @@ class DeliveryServiceTest {
     void testGetDeliveryById_Success() {
         Delivery delivery = new Delivery();
         delivery.setId(1L);
-        delivery.setAddress("123 Main St");
-        delivery.setLatitude(48.8566);
-        delivery.setLongitude(2.3522);
+        delivery.setSpecificAddress("123 Main St");
+        delivery.setSpecificLatitude(48.8566);
+        delivery.setSpecificLongitude(2.3522);
         delivery.setWeightKg(10.0);
         delivery.setVolumeM3(0.5);
         delivery.setStatus(DeliveryStatus.PENDING);
@@ -71,7 +71,7 @@ class DeliveryServiceTest {
         DeliveryDTO result = deliveryService.getDeliveryById(1L);
 
         assertNotNull(result);
-        assertEquals("123 Main St", result.getAddress());
+        assertEquals("123 Main St", result.getEffectiveAddress());
         assertEquals(DeliveryStatus.PENDING, result.getStatus());
     }
 
@@ -88,9 +88,9 @@ class DeliveryServiceTest {
     void testUpdateDeliveryStatus() {
         Delivery delivery = new Delivery();
         delivery.setId(1L);
-        delivery.setAddress("123 Main St");
-        delivery.setLatitude(48.8566);
-        delivery.setLongitude(2.3522);
+        delivery.setSpecificAddress("123 Main St");
+        delivery.setSpecificLatitude(48.8566);
+        delivery.setSpecificLongitude(2.3522);
         delivery.setWeightKg(10.0);
         delivery.setVolumeM3(0.5);
         delivery.setStatus(DeliveryStatus.PENDING);
