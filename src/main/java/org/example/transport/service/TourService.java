@@ -191,7 +191,7 @@ public class TourService {
         Delivery firstDelivery = deliveries.get(0);
         totalDistance += DistanceCalculator.calculateDistance(
                 currentLat, currentLon,
-                firstDelivery.getLatitude(), firstDelivery.getLongitude()
+                firstDelivery.getEffectiveLatitude(), firstDelivery.getEffectiveLongitude()
         );
 
         // Distance between deliveries
@@ -199,15 +199,15 @@ public class TourService {
             Delivery current = deliveries.get(i);
             Delivery next = deliveries.get(i + 1);
             totalDistance += DistanceCalculator.calculateDistance(
-                    current.getLatitude(), current.getLongitude(),
-                    next.getLatitude(), next.getLongitude()
+                    current.getEffectiveLatitude(), current.getEffectiveLongitude(),
+                    next.getEffectiveLatitude(), next.getEffectiveLongitude()
             );
         }
 
         // Distance from last delivery back to warehouse
         Delivery lastDelivery = deliveries.get(deliveries.size() - 1);
         totalDistance += DistanceCalculator.calculateDistance(
-                lastDelivery.getLatitude(), lastDelivery.getLongitude(),
+                lastDelivery.getEffectiveLatitude(), lastDelivery.getEffectiveLongitude(),
                 tour.getWarehouse().getLatitude(), tour.getWarehouse().getLongitude()
         );
 

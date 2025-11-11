@@ -43,7 +43,7 @@ public class DeliveryService {
     }
 
     public DeliveryDTO createDelivery(DeliveryDTO deliveryDTO) {
-        logger.info("Creating new delivery at: {}", deliveryDTO.getAddress());
+        logger.info("Creating new delivery for customer: {}", deliveryDTO.getCustomerId());
         Delivery delivery = DeliveryMapper.toEntity(deliveryDTO);
         Delivery saved = deliveryRepository.save(delivery);
         logger.info("Delivery created with id: {}", saved.getId());

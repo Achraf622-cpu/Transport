@@ -32,11 +32,11 @@ public class Vehicle {
     private VehicleType type;
 
     @NotNull(message = "Max weight is required")
-    @Column(nullable = false)
+    @Column(name = "max_weight_kg", nullable = false)
     private Double maxWeightKg;
 
     @NotNull(message = "Max volume is required")
-    @Column(nullable = false)
+    @Column(name = "max_volume_m3", nullable = false)
     private Double maxVolumeM3;
 
     @Column

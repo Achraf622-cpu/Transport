@@ -48,7 +48,7 @@ public class NearestNeighborOptimizer implements TourOptimizer {
                 if (!visited.contains(delivery)) {
                     double distance = DistanceCalculator.calculateDistance(
                             currentLat, currentLon,
-                            delivery.getLatitude(), delivery.getLongitude()
+                            delivery.getEffectiveLatitude(), delivery.getEffectiveLongitude()
                     );
                     if (distance < minDistance) {
                         minDistance = distance;
@@ -60,8 +60,8 @@ public class NearestNeighborOptimizer implements TourOptimizer {
             if (nearest != null) {
                 optimizedRoute.add(nearest);
                 visited.add(nearest);
-                currentLat = nearest.getLatitude();
-                currentLon = nearest.getLongitude();
+                currentLat = nearest.getEffectiveLatitude();
+                currentLon = nearest.getEffectiveLongitude();
             }
         }
 

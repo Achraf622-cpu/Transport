@@ -8,8 +8,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.example.transport.enums.OptimizationAlgorithm;
+import org.example.transport.enums.TourStatus;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,17 +53,29 @@ public class Tour {
     @Column
     private OptimizationAlgorithm algorithm;
 
-    @Column
+    @Column(name = "total_distance_km")
     private Double totalDistanceKm;
 
-    @Column
+    @Column(name = "total_weight_kg")
     private Double totalWeightKg;
 
-    @Column
+    @Column(name = "total_volume_m3")
     private Double totalVolumeM3;
 
     @Column
     private Boolean optimized = false;
+
+    // V2.0 - Tour status management
+    @NotNull(message = "Tour status is required")
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TourStatus status = TourStatus.PENDING;
+
+    @Column(name = "start_time")
+    private LocalDateTime startTime;
+
+    @Column(name = "completion_time")
+    private LocalDateTime completionTime;
 
     public void addDelivery(Delivery delivery) {
         deliveries.add(delivery);

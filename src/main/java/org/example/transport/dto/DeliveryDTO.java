@@ -14,14 +14,21 @@ import org.example.transport.enums.DeliveryStatus;
 public class DeliveryDTO {
     private Long id;
     
-    @NotBlank(message = "Delivery address is required")
-    private String address;
+    // V2.0 - Customer reference
+    @NotNull(message = "Customer ID is required")
+    private Long customerId;
     
-    @NotNull(message = "Latitude is required")
-    private Double latitude;
+    private String customerName; // For display purposes
     
-    @NotNull(message = "Longitude is required")
-    private Double longitude;
+    // Optional specific address override
+    private String specificAddress;
+    private Double specificLatitude;
+    private Double specificLongitude;
+    
+    // Effective address (computed from customer or specific)
+    private String effectiveAddress;
+    private Double effectiveLatitude;
+    private Double effectiveLongitude;
     
     @NotNull(message = "Weight is required")
     @Positive(message = "Weight must be positive")

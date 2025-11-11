@@ -44,11 +44,11 @@ public class ClarkeWrightOptimizer implements TourOptimizer {
                 Delivery d2 = deliveries.get(j);
 
                 double distWarehouseToD1 = DistanceCalculator.calculateDistance(
-                        warehouseLat, warehouseLon, d1.getLatitude(), d1.getLongitude());
+                        warehouseLat, warehouseLon, d1.getEffectiveLatitude(), d1.getEffectiveLongitude());
                 double distWarehouseToD2 = DistanceCalculator.calculateDistance(
-                        warehouseLat, warehouseLon, d2.getLatitude(), d2.getLongitude());
+                        warehouseLat, warehouseLon, d2.getEffectiveLatitude(), d2.getEffectiveLongitude());
                 double distD1ToD2 = DistanceCalculator.calculateDistance(
-                        d1.getLatitude(), d1.getLongitude(), d2.getLatitude(), d2.getLongitude());
+                        d1.getEffectiveLatitude(), d1.getEffectiveLongitude(), d2.getEffectiveLatitude(), d2.getEffectiveLongitude());
 
                 // Savings = distance(warehouse, d1) + distance(warehouse, d2) - distance(d1, d2)
                 double savingValue = distWarehouseToD1 + distWarehouseToD2 - distD1ToD2;
