@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--
+        Master Changelog File
+        This file includes all version-specific changelogs in order
+        Author: Transport Team
+        Created: 2025-11-04
+    -->
+
+    <!-- V1.0 - Initial Database Schema -->
+    <include file="db/changelog/db.changelog-v1.0-initial.xml"/>
+
+    <!-- V2.0 - New Entities and Enhancements -->
+    <include file="db/changelog/db.changelog-v2.0-new-entities.xml"/>
+    
+    <!-- V2.0 - Migration Script to Customer Model -->
+    <include file="db/changelog/db.changelog-v2.0-data-migration.xml"/>
+
+</databaseChangeLog>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--
+        V1.0 Initial Schema
+        Author: Transport Team
+        Date: 2024-10-27
+        Description: Initial database schema for Transport Management System V1
+    -->
+
+    <!-- Changeset 1: Create warehouses table -->
+    <changeSet id="1-create-warehouses-table" author="transport-team">
+        <comment>Create warehouses table for storing warehouse information</comment>
+        <createTable tableName="warehouses">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="latitude" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="longitude" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="opening_time" type="VARCHAR(10)"/>
+            <column name="closing_time" type="VARCHAR(10)"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="warehouses"/>
+        </rollback>
+    </changeSet>
+
+    <!-- Changeset 2: Create vehicles table -->
+    <changeSet id="2-create-vehicles-table" author="transport-team">
+        <comment>Create vehicles table for storing vehicle information</comment>
+        <createTable tableName="vehicles">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="registration_number" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="type" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_weight_kg" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_volume_m3" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="available" type="BOOLEAN" defaultValueBoolean="true"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="vehicles"/>
+        </rollback>
+    </changeSet>
+
+    <!-- Changeset 3: Create tours table (V1 version) -->
+    <changeSet id="3-create-tours-table-v1" author="transport-team">
+        <comment>Create tours table for delivery routes</comment>
+        <createTable tableName="tours">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tour_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vehicle_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_tour_vehicle" references="vehicles(id)"/>
+            </column>
+            <column name="warehouse_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_tour_warehouse" references="warehouses(id)"/>
+            </column>
+            <column name="algorithm" type="VARCHAR(50)"/>
+            <column name="total_distance_km" type="DOUBLE"/>
+            <column name="total_weight_kg" type="DOUBLE"/>
+            <column name="total_volume_m3" type="DOUBLE"/>
+            <column name="optimized" type="BOOLEAN" defaultValueBoolean="false"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="tours"/>
+        </rollback>
+    </changeSet>
+
+    <!-- Changeset 4: Create deliveries table (V1 version with address) -->
+    <changeSet id="4-create-deliveries-table-v1" author="transport-team">
+        <comment>Create deliveries table with direct address fields (V1 model)</comment>
+        <createTable tableName="deliveries_v1_temp">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="address" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="latitude" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="longitude" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="weight_kg" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="volume_m3" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="preferred_time_slot" type="VARCHAR(50)"/>
+            <column name="status" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tour_id" type="BIGINT">
+                <constraints foreignKeyName="fk_delivery_tour" references="tours(id)"/>
+            </column>
+            <column name="sequence_in_tour" type="INT"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="deliveries_v1_temp"/>
+        </rollback>
+    </changeSet>
+
+    <!-- Changeset 5: Create indexes for better performance -->
+    <changeSet id="5-create-indexes-v1" author="transport-team">
+        <comment>Create indexes on frequently queried columns</comment>
+        <createIndex tableName="deliveries_v1_temp" indexName="idx_delivery_status">
+            <column name="status"/>
+        </createIndex>
+        <createIndex tableName="deliveries_v1_temp" indexName="idx_delivery_tour">
+            <column name="tour_id"/>
+        </createIndex>
+        <createIndex tableName="tours" indexName="idx_tour_date">
+            <column name="tour_date"/>
+        </createIndex>
+        <createIndex tableName="vehicles" indexName="idx_vehicle_available">
+            <column name="available"/>
+        </createIndex>
+        <rollback>
+            <dropIndex tableName="deliveries_v1_temp" indexName="idx_delivery_status"/>
+            <dropIndex tableName="deliveries_v1_temp" indexName="idx_delivery_tour"/>
+            <dropIndex tableName="tours" indexName="idx_tour_date"/>
+            <dropIndex tableName="vehicles" indexName="idx_vehicle_available"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

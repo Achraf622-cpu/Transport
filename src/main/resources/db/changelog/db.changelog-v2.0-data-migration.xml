@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--
+        V2.0 Data Migration
+        Author: Transport Team
+        Date: 2025-11-04
+        Description: Migrate existing V1 deliveries to V2 customer-based model
+        NOTE: This is executed only if deliveries_v1_temp table exists (coming from V1)
+    -->
+
+    <!-- Changeset 11: Migrate V1 delivery addresses to customers -->
+    <changeSet id="11-migrate-deliveries-to-customers" author="transport-team">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="deliveries_v1_temp"/>
+        </preConditions>
+        <comment>WHO: Transport Team, WHAT: Create customers from V1 delivery addresses, WHEN: 2025-11-04</comment>
+        <sql>
+            INSERT INTO customers (name, address, latitude, longitude, preferred_time_slot, active)
+            SELECT DISTINCT
+                CONCAT('Customer at ', SUBSTRING(address, 1, 50)) as name,
+                address,
+                latitude,
+                longitude,
+                preferred_time_slot,
+                true
+            FROM deliveries_v1_temp;
+        </sql>
+        <rollback>
+            DELETE FROM customers WHERE name LIKE 'Customer at %';
+        </rollback>
+    </changeSet>
+
+    <!-- Changeset 12: Migrate V1 deliveries to V2 structure -->
+    <changeSet id="12-migrate-deliveries-data" author="transport-team">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="deliveries_v1_temp"/>
+        </preConditions>
+        <comment>WHO: Transport Team, WHAT: Migrate delivery data to V2 structure, WHEN: 2025-11-04</comment>
+        <sql>
+            INSERT INTO deliveries (customer_id, specific_address, specific_latitude, specific_longitude,
+                                   weight_kg, volume_m3, preferred_time_slot, status, tour_id, sequence_in_tour)
+            SELECT
+                c.id as customer_id,
+                NULL as specific_address,
+                NULL as specific_latitude,
+                NULL as specific_longitude,
+                d.weight_kg,
+                d.volume_m3,
+                d.preferred_time_slot,
+                d.status,
+                d.tour_id,
+                d.sequence_in_tour
+            FROM deliveries_v1_temp d
+            INNER JOIN customers c ON c.address = d.address
+                AND c.latitude = d.latitude
+                AND c.longitude = d.longitude;
+        </sql>
+        <rollback>
+            DELETE FROM deliveries;
+        </rollback>
+    </changeSet>
+
+    <!-- Changeset 13: Drop V1 temporary table -->
+    <changeSet id="13-drop-v1-temp-table" author="transport-team">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="deliveries_v1_temp"/>
+        </preConditions>
+        <comment>WHO: Transport Team, WHAT: Remove V1 temporary delivery table, WHEN: 2025-11-04</comment>
+        <dropTable tableName="deliveries_v1_temp"/>
+        <rollback>
+            <comment>Cannot rollback - table structure has changed</comment>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
