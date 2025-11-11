@@ -27,26 +27,30 @@ public class Delivery {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Delivery address is required")
-    @Column(nullable = false)
-    private String address;
+    // V2.0 - Customer reference (address comes from customer)
+    @NotNull(message = "Customer is required")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
 
-    @NotNull(message = "Latitude is required")
-    @Column(nullable = false)
-    private Double latitude;
+    // Specific delivery address (can override customer default address if needed)
+    @Column(length = 500)
+    private String specificAddress;
 
-    @NotNull(message = "Longitude is required")
-    @Column(nullable = false)
-    private Double longitude;
+    @Column
+    private Double specificLatitude;
+
+    @Column
+    private Double specificLongitude;
 
     @NotNull(message = "Weight is required")
     @Positive(message = "Weight must be positive")
-    @Column(nullable = false)
+    @Column(name = "weight_kg", nullable = false)
     private Double weightKg;
 
     @NotNull(message = "Volume is required")
     @Positive(message = "Volume must be positive")
-    @Column(nullable = false)
+    @Column(name = "volume_m3", nullable = false)
     private Double volumeM3;
 
     @Column
@@ -63,4 +67,35 @@ public class Delivery {
 
     @Column
     private Integer sequenceInTour; // Order in the tour
+
+    /**
+     * Get the effective delivery address
+     * Returns specific address if set, otherwise customer's address
+     */
+    public String getEffectiveAddress() {
+        if (specificAddress != null) {
+            return specificAddress;
+        }
+        return customer != null ? customer.getAddress() : null;
+    }
+
+    /**
+     * Get the effective latitude
+     */
+    public Double getEffectiveLatitude() {
+        if (specificLatitude != null) {
+            return specificLatitude;
+        }
+        return customer != null ? customer.getLatitude() : null;
+    }
+
+    /**
+     * Get the effective longitude
+     */
+    public Double getEffectiveLongitude() {
+        if (specificLongitude != null) {
+            return specificLongitude;
+        }
+        return customer != null ? customer.getLongitude() : null;
+    }
 }

@@ -13,18 +13,23 @@ public class DeliveryMapper {
         if (delivery == null) {
             return null;
         }
-        return new DeliveryDTO(
-                delivery.getId(),
-                delivery.getAddress(),
-                delivery.getLatitude(),
-                delivery.getLongitude(),
-                delivery.getWeightKg(),
-                delivery.getVolumeM3(),
-                delivery.getPreferredTimeSlot(),
-                delivery.getStatus(),
-                delivery.getTour() != null ? delivery.getTour().getId() : null,
-                delivery.getSequenceInTour()
-        );
+        DeliveryDTO dto = new DeliveryDTO();
+        dto.setId(delivery.getId());
+        dto.setCustomerId(delivery.getCustomer() != null ? delivery.getCustomer().getId() : null);
+        dto.setCustomerName(delivery.getCustomer() != null ? delivery.getCustomer().getName() : null);
+        dto.setSpecificAddress(delivery.getSpecificAddress());
+        dto.setSpecificLatitude(delivery.getSpecificLatitude());
+        dto.setSpecificLongitude(delivery.getSpecificLongitude());
+        dto.setEffectiveAddress(delivery.getEffectiveAddress());
+        dto.setEffectiveLatitude(delivery.getEffectiveLatitude());
+        dto.setEffectiveLongitude(delivery.getEffectiveLongitude());
+        dto.setWeightKg(delivery.getWeightKg());
+        dto.setVolumeM3(delivery.getVolumeM3());
+        dto.setPreferredTimeSlot(delivery.getPreferredTimeSlot());
+        dto.setStatus(delivery.getStatus());
+        dto.setTourId(delivery.getTour() != null ? delivery.getTour().getId() : null);
+        dto.setSequenceInTour(delivery.getSequenceInTour());
+        return dto;
     }
 
     public static Delivery toEntity(DeliveryDTO dto) {
@@ -33,9 +38,10 @@ public class DeliveryMapper {
         }
         Delivery delivery = new Delivery();
         delivery.setId(dto.getId());
-        delivery.setAddress(dto.getAddress());
-        delivery.setLatitude(dto.getLatitude());
-        delivery.setLongitude(dto.getLongitude());
+        // Customer must be set separately by the service
+        delivery.setSpecificAddress(dto.getSpecificAddress());
+        delivery.setSpecificLatitude(dto.getSpecificLatitude());
+        delivery.setSpecificLongitude(dto.getSpecificLongitude());
         delivery.setWeightKg(dto.getWeightKg());
         delivery.setVolumeM3(dto.getVolumeM3());
         delivery.setPreferredTimeSlot(dto.getPreferredTimeSlot());
@@ -48,9 +54,10 @@ public class DeliveryMapper {
         if (dto == null || delivery == null) {
             return;
         }
-        delivery.setAddress(dto.getAddress());
-        delivery.setLatitude(dto.getLatitude());
-        delivery.setLongitude(dto.getLongitude());
+        // Customer update must be handled separately by the service
+        delivery.setSpecificAddress(dto.getSpecificAddress());
+        delivery.setSpecificLatitude(dto.getSpecificLatitude());
+        delivery.setSpecificLongitude(dto.getSpecificLongitude());
         delivery.setWeightKg(dto.getWeightKg());
         delivery.setVolumeM3(dto.getVolumeM3());
         delivery.setPreferredTimeSlot(dto.getPreferredTimeSlot());
