@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: Transport-V2
+  
+  profiles:
+    active: ${SPRING_PROFILE:dev}
+  
+  # Liquibase Configuration
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    drop-first: false
+  
+  # JPA Configuration (common)
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    defer-datasource-initialization: false  # Liquibase handles schema
+  
+  # SQL Initialization - disabled (Liquibase handles it)
+  sql:
+    init:
+      mode: never
+
+# Server Configuration
+server:
+  port: ${SERVER_PORT:8080}
+  error:
+    include-message: always
+    include-binding-errors: always
+
+# Swagger/OpenAPI Configuration
+springdoc:
+  api-docs:
+    path: ${SWAGGER_API_DOCS_PATH:/api-docs}
+  swagger-ui:
+    path: ${SWAGGER_UI_PATH:/swagger-ui.html}
+    enabled: true
+
+# Logging Configuration (common)
+logging:
+  level:
+    org.example.transport: ${LOG_LEVEL_APP:INFO}
+    org.springframework.web: ${LOG_LEVEL_WEB:INFO}
+    org.hibernate.SQL: ${LOG_LEVEL_SQL:DEBUG}
+    liquibase: INFO
+
+# Tour Optimizer Configuration
+tour:
+  optimizer:
+    algorithm: ${OPTIMIZER_ALGORITHM:NEAREST_NEIGHBOR}  # Options: NEAREST_NEIGHBOR, CLARKE_WRIGHT, AI
